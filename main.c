@@ -1,47 +1,47 @@
 #include <stdio.h>
 
-// Definicoes basicas para o compilador nao reclamar da falta de bibliotecas
-typedef unsigned int uint32_t;
-
-void delay(int cycles) {
-    for(volatile int i = 0; i < cycles; i++);
+// Funcao de delay manual para o boot nao ser instantaneo
+void wait(int count) {
+    for(volatile int i = 0; i < count; i++);
 }
 
 int main() {
-    // TELA 1: BOOT E DIAGNOSTICO
-    printf("\n\n");
-    printf("LUMEN-OS KERNEL v1.0\n");
-    printf("----------------------------------\n");
-    printf("[*] Iniciando Threads do PowerPC...\n");
-    delay(1000000);
+    // --- TELA 1: LOG DE BOOT (DEBUG) ---
+    printf("\n\nLUMEN-OS KERNEL LOADING...\n");
+    printf("---------------------------\n");
     
-    printf("[*] Checando barramento USB...\n");
-    // Aqui no futuro entra o driver real
-    printf("[OK] Controlador USB pronto.\n");
+    printf("[*] Identificando CPU PowerPC Xenon... OK\n");
+    wait(2000000);
     
-    printf("[*] Inicializando Rede Ethernet...\n");
-    printf("[ERR] DHCP nao respondeu. Verifique o cabo.\n");
+    printf("[*] Inicializando barramento USB... OK\n");
+    wait(2000000);
     
-    printf("\n[!] AGUARDANDO MOUSE E TECLADO...\n");
-    printf("Pressione qualquer tecla ou espere o timeout.\n");
-    delay(3000000);
+    printf("[*] Checando Conexao de Rede...\n");
+    printf("[!] Erro: Cabo desconectado ou IP nao atribuido.\n");
+    wait(2000000);
 
-    // TELA 2: INTERFACE DISCORD (SIMULADA NO TERMINAL)
-    // Limpa a tela com varias quebras de linha
+    printf("\n[!] AGUARDANDO MOUSE E TECLADO NAS PORTAS FRONTAIS...\n");
+    printf("[*] Identificado: Mouse Standard USB\n");
+    wait(3000000);
+
+    // --- TELA 2: INTERFACE DISCORD (SIMULADA) ---
+    // Limpa a tela visualmente
     for(int i=0; i<40; i++) printf("\n");
 
-    printf("==================================================\n");
-    printf("  DISCORD XBOX 360 | Status: Offline (Sem IP)    \n");
-    printf("==================================================\n");
-    printf("  # GERAL         |  SISTEMA: Hardware detectado\n");
-    printf("  # DEV-LUMEN     |  MOUSE: Porta 01 (Ativo)    \n");
-    printf("  # AJUDA         |  TECLADO: Porta 02 (Ativo)  \n");
-    printf("--------------------------------------------------\n");
-    printf("  [Lumen]: O projeto de terminal esta ganhando vida!\n");
-    printf("==================================================\n");
+    printf("##################################################\n");
+    printf("#   DISCORD XBOX 360  |  Status: Localhost       #\n");
+    printf("##################################################\n");
+    printf("#                                                #\n");
+    printf("#  [ CANAIS ]          [ MENSAGENS ]             #\n");
+    printf("#  # geral             Lumen: Finalmente compilou!#\n");
+    printf("#  # dev-xbox          Console: Hardware Ativo   #\n");
+    printf("#  # hardware          Sistema: Pronto para uso  #\n");
+    printf("#                                                #\n");
+    printf("##################################################\n");
+    printf("Pressione o botao central para sair.\n");
 
     while(1) {
-        // Loop infinito para o Xbox nao reiniciar
+        // Loop infinito para manter o console ligado
     }
 
     return 0;
