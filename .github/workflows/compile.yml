@@ -5,20 +5,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do Código
+      - name: Checkout do Codigo
         uses: actions/checkout@v4
 
-      - name: Instalar Compilador PowerPC
+      - name: Instalar Compilador
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-powerpc-linux-gnu make
 
-      - name: Compilar Homebrew
+      - name: Compilar
         run: make
-
-      - name: Disponibilizar Arquivo para Download
+        
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: App-Xbox360-Lumen
+          name: App-Lumen-Xbox
           path: xenon.elf
-          
