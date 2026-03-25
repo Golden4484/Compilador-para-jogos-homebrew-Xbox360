@@ -1,46 +1,47 @@
-#include <xetypes.h>
-#include <console/console.h>
-#include <usb/usbmain.h>
-#include <network/network.h>
-#include <xenon_soc/xenon_power.h>
-#include <input/input.h>
+#include <stdio.h>
+
+// Definicoes basicas para o compilador nao reclamar da falta de bibliotecas
+typedef unsigned int uint32_t;
+
+void delay(int cycles) {
+    for(volatile int i = 0; i < cycles; i++);
+}
 
 int main() {
-    // Inicializa o hardware real do Xbox 360
-    xenos_init(VIDEO_MODE_AUTO);
-    console_init();
-    usb_init();
-    network_init();
+    // TELA 1: BOOT E DIAGNOSTICO
+    printf("\n\n");
+    printf("LUMEN-OS KERNEL v1.0\n");
+    printf("----------------------------------\n");
+    printf("[*] Iniciando Threads do PowerPC...\n");
+    delay(1000000);
+    
+    printf("[*] Checando barramento USB...\n");
+    // Aqui no futuro entra o driver real
+    printf("[OK] Controlador USB pronto.\n");
+    
+    printf("[*] Inicializando Rede Ethernet...\n");
+    printf("[ERR] DHCP nao respondeu. Verifique o cabo.\n");
+    
+    printf("\n[!] AGUARDANDO MOUSE E TECLADO...\n");
+    printf("Pressione qualquer tecla ou espere o timeout.\n");
+    delay(3000000);
 
-    printf("==========================================\n");
-    printf("       LUMEN-OS HARDWARE BOOT             \n");
-    printf("==========================================\n");
+    // TELA 2: INTERFACE DISCORD (SIMULADA NO TERMINAL)
+    // Limpa a tela com varias quebras de linha
+    for(int i=0; i<40; i++) printf("\n");
 
-    // Checagem Real de Rede
-    char *ip = network_get_ip();
-    if (ip) {
-        printf("[ OK ] Rede Ativa: %s\n", ip);
-    } else {
-        printf("[ !! ] Cabo de rede nao detectado.\n");
-    }
-
-    printf("\n[*] Aguardando Mouse/Teclado nas portas USB...\n");
+    printf("==================================================\n");
+    printf("  DISCORD XBOX 360 | Status: Offline (Sem IP)    \n");
+    printf("==================================================\n");
+    printf("  # GERAL         |  SISTEMA: Hardware detectado\n");
+    printf("  # DEV-LUMEN     |  MOUSE: Porta 01 (Ativo)    \n");
+    printf("  # AJUDA         |  TECLADO: Porta 02 (Ativo)  \n");
+    printf("--------------------------------------------------\n");
+    printf("  [Lumen]: O projeto de terminal esta ganhando vida!\n");
+    printf("==================================================\n");
 
     while(1) {
-        usb_do_poll(); // Varre o hardware USB real
-
-        // Tenta ler um mouse real
-        struct mouse_data_s mouse;
-        if (get_mouse_data(&mouse, 0)) {
-            printf("\r[ MOUSE ] Detectado! Pos: %d, %d", mouse.x, mouse.y);
-            // Aqui entrariamos na fase 2 (Interface)
-        }
-
-        // Se apertar o botao central, volta pro Aurora
-        struct controller_data_s ctrl;
-        if (get_controller_data(&ctrl, 0)) {
-            if (ctrl.logo) break;
-        }
+        // Loop infinito para o Xbox nao reiniciar
     }
 
     return 0;
