@@ -1,7 +1,7 @@
 CC = powerpc-linux-gnu-gcc
 OBJCOPY = powerpc-linux-gnu-objcopy
 
-# Corrigido de -march para -mcpu conforme o log de erro do seu print
+# Trocamos -march por -mcpu para o processador Xenon
 CFLAGS = -mcpu=powerpc -m32 -nostdlib -I. -O2
 
 all:
