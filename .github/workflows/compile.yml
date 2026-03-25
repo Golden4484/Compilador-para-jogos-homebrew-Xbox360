@@ -1,23 +1,25 @@
-name: Xbox360-LumenOS-Build
+name: Xbox360-LumenOS-Real-Build
 on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do Codigo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Instalar Compilador PowerPC
+      - name: Instalar Toolchain e Libxenon
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-powerpc-linux-gnu make
+          # Aqui baixamos os headers da libxenon para o C entender os drivers
+          git clone https://github.com/Free60Project/libxenon.git
 
       - name: Compilar
         run: make
 
-      - name: Upload do ELF
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: Lumen-OS-Boot-Alpha
+          name: Lumen-OS-Real
           path: xenon.elf
