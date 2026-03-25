@@ -1,4 +1,4 @@
-name: Xbox360-Build-System
+name: Xbox360-LumenOS-Build
 on: [push]
 
 jobs:
@@ -8,16 +8,16 @@ jobs:
       - name: Checkout do Codigo
         uses: actions/checkout@v4
 
-      - name: Instalar Compilador
+      - name: Instalar Toolchain PowerPC
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-powerpc-linux-gnu make
+          sudo apt-get install -y gcc-powerpc-linux-gnu make libc6-dev-ppc-cross
 
-      - name: Compilar
+      - name: Compilar App
         run: make
-        
-      - name: Upload
+
+      - name: Upload do Binario (ELF)
         uses: actions/upload-artifact@v4
         with:
-          name: App-Lumen-Xbox
+          name: Lumen-OS-Installer
           path: xenon.elf
