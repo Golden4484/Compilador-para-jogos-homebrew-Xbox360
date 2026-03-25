@@ -1,0 +1,24 @@
+name: Xbox360-Build-System
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Instalar Compilador PowerPC
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-powerpc-linux-gnu make
+
+      - name: Compilar Homebrew
+        run: make
+
+      - name: Disponibilizar Arquivo para Download
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-Xbox360-Lumen
+          path: xenon.elf
+          
